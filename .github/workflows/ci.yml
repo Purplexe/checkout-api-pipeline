@@ -20,5 +20,5 @@ jobs:
         run: |
           docker run -d -p 8000:8000 --name checkout-api-test checkout-api:ci
           sleep 3
-          curl -f http://localhost:9000/health
+          curl -f http://localhost:8000/health
           docker rm -f checkout-api-test
