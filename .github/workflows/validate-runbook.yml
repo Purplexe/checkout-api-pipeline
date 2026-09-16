@@ -1,0 +1,26 @@
+name: Validate Incident Runbook
+
+on:
+  workflow_dispatch:
+    inputs:
+      runbook_file:
+        description: "Path to the runbook file to validate"
+        required: true
+        default: "RUNBOOK-DRAFT.md"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runbook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate runbook structure
+        run: |
+          test -f "${{ github.event.inputs.runbook_file }}" || { echo "::error::${{ github.event.inputs.runbook_file }} not found in this repository."; exit 1; }
+          grep -qi "diagnos" "${{ github.event.inputs.runbook_file }}" || { echo "::error::No diagnosis section found in ${{ github.event.inputs.runbook_file }}."; exit 1; }
+          grep -qi "resolut" "${{ github.event.inputs.runbook_file }}" || { echo "::error::No resolution section found in ${{ github.event.inputs.runbook_file }}."; exit 1; }
+          grep -q "kubectl " "${{ github.event.inputs.runbook_file }}" || { echo "::error::No real kubectl command found in ${{ github.event.inputs.runbook_file }}."; exit 1; }
+          echo "${{ github.event.inputs.runbook_file }} has a diagnosis section, a resolution section, and at least one real kubectl command."
