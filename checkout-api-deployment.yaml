@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: checkout-api
-          image: checkout-api:v3-pipeline
+          image: checkout-api:v3
           imagePullPolicy: Never
           ports:
             - containerPort: 8000
