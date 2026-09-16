@@ -1,0 +1,7 @@
+target:
+  deployment: checkout-api
+  namespace: checkout-api
+threshold:
+  memory_mi: 10
+action:
+  replicas: 2

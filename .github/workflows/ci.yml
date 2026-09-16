@@ -22,3 +22,16 @@ jobs:
           sleep 3
           curl -f http://localhost:8000/health
           docker rm -f checkout-api-test
+
+      - name: Validate scaling policy
+        run: |
+          test -f scaling-policy.yaml || { echo "scaling-policy.yaml is missing"; exit 1; }
+          DEPLOYMENT_NAME=$(grep -A1 '^target:' scaling-policy.yaml | grep 'deployment:' | awk '{print $2}')
+          test -n "$DEPLOYMENT_NAME" || { echo "target.deployment is missing"; exit 1; }
+          grep -q "name: $DEPLOYMENT_NAME" checkout-api-deployment.yaml || {
+            echo "scaling-policy.yaml targets '$DEPLOYMENT_NAME', which checkout-api-deployment.yaml does not define"
+            exit 1
+          }
+          grep -q 'memory_mi:' scaling-policy.yaml || { echo "threshold.memory_mi is missing"; exit 1; }
+          grep -q 'replicas:' scaling-policy.yaml || { echo "action.replicas is missing"; exit 1; }
+          echo "scaling-policy.yaml is valid and targets a real Deployment"
