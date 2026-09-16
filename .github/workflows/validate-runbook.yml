@@ -6,7 +6,7 @@ on:
       runbook_file:
         description: "Path to the runbook file to validate"
         required: true
-        default: "RUNBOOK-DRAFT.md"
+        default: "RUNBOOK-checkout-api-oom.md"
 
 permissions:
   contents: read
