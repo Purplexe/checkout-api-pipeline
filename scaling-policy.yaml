@@ -1,5 +1,5 @@
 target:
-  deployment: checkout-api-svc
+  deployment: checkout-api
   namespace: checkout-api
 threshold:
   memory-mi: 10
