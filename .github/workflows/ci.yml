@@ -2,7 +2,7 @@ name: checkout-api CI
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
         run: |
           docker run -d -p 8000:8000 --name checkout-api-test checkout-api:ci
           sleep 3
-          curl -f http://localhost:8000/health
+          curl -f http://localhost:8000/healthz
           docker rm -f checkout-api-test
 
       - name: Validate scaling policy

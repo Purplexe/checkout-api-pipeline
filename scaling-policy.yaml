@@ -1,7 +1,7 @@
 target:
-  deployment: checkout-api
+  deployment: checkout-api-svc
   namespace: checkout-api
 threshold:
-  memory_mi: 10
+  memory-mi: 10
 action:
   replicas: 2
